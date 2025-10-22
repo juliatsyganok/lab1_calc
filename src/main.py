@@ -1,20 +1,31 @@
-from src.power import power_function
-from src.constants import SAMPLE_CONSTANT
-
+from calc import calculate
+from tokens import get_tokens
 
 def main() -> None:
     """
-    Обязательнная составляющая программ, которые сдаются. Является точкой входа в приложение
-    :return: Данная функция ничего не возвращает
+    Главная функция - точка входа в калькулятор.
+
+    Пользовательский ввод обрабатывается до команды stop
+
+    Returns:
+        None: не возвращает значение, только счиатет результат выражения
     """
+    while True:
+        print("Начало работы. Введите выражение или 'stop' для выхода")
+        case = input()
+        case = str(case)
 
-    target, degree = map(int, input("Введите два числа разделенные пробелом: ").split(" "))
+        if case.lower() == 'stop':
+            break
+        if not case:
+            continue
 
-    result = power_function(target=target, power=degree)
-
-    print(result)
-
-    print(SAMPLE_CONSTANT)
+        try:
+            tokens = get_tokens(case)
+            result = calculate(tokens)
+            print(f"Результат: {result}")
+        except Exception as e:
+            print(f"Ошибка: {e}")
 
 if __name__ == "__main__":
     main()
